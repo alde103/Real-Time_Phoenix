@@ -4,6 +4,7 @@ defmodule HelloSocketsWeb.UserSocket do
   channel "ping", HelloSocketsWeb.PingChannel
   channel "ping:*", HelloSocketsWeb.PingChannel
   channel "wild:*", HelloSocketsWeb.WildcardChannel
+  channel "dupe", HelloSocketsWeb.DedupeChannel
 
   # Uncomment the following line to define a "room:*" topic
   # pointing to the `HelloWeb.RoomChannel`:

@@ -100,8 +100,26 @@ channel.on("send_ping", (payload) => {
 })
 
 channel.push("invalid")
-.receive("ok", (resp) => console.log("won't happen"))
-.receive("error", (resp) => console.error("won't happen"))
-.receive("timeout", (resp) => console.error("invalid event timeout"))
+  .receive("ok", (resp) => console.log("won't happen"))
+  .receive("error", (resp) => console.error("won't happen"))
+  .receive("timeout", (resp) => console.error("invalid event timeout"))
+
+const authSocket = new Socket("/auth_socket", {
+  params: { token: window.authToken }
+})
+authSocket.onOpen(() => console.log('authSocket connected'))
+authSocket.connect()
+
+const recurringChannel = authSocket.channel("recurring")
+recurringChannel.on("new_token", (payload) => {
+  console.log("received new auth token", payload)
+})
+recurringChannel.join()
+
+const dupeChannel = socket.channel("dupe")
+dupeChannel.on("number", (payload) => {
+console.log("new number received", payload)
+})
+dupeChannel.join()
 
 export default socket
