@@ -118,8 +118,53 @@ recurringChannel.join()
 
 const dupeChannel = socket.channel("dupe")
 dupeChannel.on("number", (payload) => {
-console.log("new number received", payload)
+  console.log("new number received", payload)
 })
 dupeChannel.join()
+
+const statsSocket = new Socket("/stats_socket", {})
+statsSocket.connect()
+const statsChannelInvalid = statsSocket.channel("invalid")
+statsChannelInvalid.join()
+  .receive("error", () => statsChannelInvalid.leave())
+const statsChannelValid = statsSocket.channel("valid")
+statsChannelValid.join()
+for (let i = 0; i < 5; i++) {
+  statsChannelValid.push("ping")
+}
+
+const slowStatsSocket = new Socket("/stats_socket", {})
+slowStatsSocket.connect()
+const slowStatsChannel = slowStatsSocket.channel("valid")
+slowStatsChannel.join()
+for (let i = 0; i < 5; i++) {
+  slowStatsChannel.push("slow_ping")
+    .receive("ok", () => console.log("Slow ping response received", i))
+}
+console.log("5 slow pings requested")
+
+
+const fastStatsSocket = new Socket("/stats_socket", {})
+fastStatsSocket.connect()
+const fastStatsChannel = fastStatsSocket.channel("valid")
+fastStatsChannel.join()
+for (let i = 0; i < 5; i++) {
+  fastStatsChannel.push("parallel_slow_ping")
+    .receive("ok", () => console.log("Parallel slow ping response", i))
+}
+console.log("5 parallel slow pings requested")
+
+
+const authUserChannel = authSocket.channel(`user:${window.userId}`)
+authUserChannel.on("push", (payload) => {
+  console.log("received auth user push", payload)
+})
+authUserChannel.join()
+
+authUserChannel.on("push_timed", (payload) => {
+  console.log("received timed auth user push", payload)
+  })
+
+console.log("User ID:", window.userId)
 
 export default socket

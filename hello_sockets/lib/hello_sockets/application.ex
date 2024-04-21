@@ -4,6 +4,8 @@ defmodule HelloSockets.Application do
   @moduledoc false
 
   use Application
+  alias HelloSockets.Pipeline.Producer
+  alias HelloSockets.Pipeline.ConsumerSupervisor, as: Consumer
 
   @impl true
   def start(_type, _args) do
@@ -16,6 +18,8 @@ defmodule HelloSockets.Application do
       # Start a worker by calling: HelloSockets.Worker.start_link(arg)
       # {HelloSockets.Worker, arg},
       # Start to serve requests, typically the last entry
+      {Producer, name: Producer},
+      {Consumer, subscribe_to: [{Producer, max_demand: 10, min_demand: 5}]},
       HelloSocketsWeb.Endpoint
     ]
 

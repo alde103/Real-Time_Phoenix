@@ -8,7 +8,8 @@
 import Config
 
 config :hello_sockets,
-  generators: [timestamp_type: :utc_datetime]
+  generators: [timestamp_type: :utc_datetime],
+  dev_routes: true
 
 # Configures the endpoint
 config :hello_sockets, HelloSocketsWeb.Endpoint,

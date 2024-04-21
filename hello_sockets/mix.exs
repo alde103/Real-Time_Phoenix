@@ -19,7 +19,7 @@ defmodule HelloSockets.MixProject do
   def application do
     [
       mod: {HelloSockets.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :os_mon]
     ]
   end
 
@@ -47,7 +47,8 @@ defmodule HelloSockets.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:plug_cowboy, "~> 2.5"}
+      {:plug_cowboy, "~> 2.5"},
+      {:gen_stage, ">= 0.0.0"}
     ]
   end
 
