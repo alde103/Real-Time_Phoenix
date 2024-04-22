@@ -14,7 +14,7 @@
       <div>$<%= product.price_usd %></div>
 
       <%= if product.released do %>
-        <%= Phoenix.Template.render Sneakers23.SizeComponent, "render", "html", Map.put(assigns, :action, ~p"/cart/add")%>
+        <%= Phoenix.Template.render Sneakers23Web.SizeComponent, "render", "html", %{action:  ~p"/cart/add", product: product}%>
       <% else %>
         <h4 class={"product-soon-#{product.id}"}>
           coming soon...
