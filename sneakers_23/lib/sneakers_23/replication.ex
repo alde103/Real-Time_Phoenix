@@ -7,6 +7,10 @@ defmodule Sneakers23.Replication do
     broadcast!({:mark_product_released!, product_id})
   end
 
+  def item_sold!(item_id) do
+    broadcast!({:item_sold!, item_id})
+  end
+
   defp broadcast!(data) do
     Phoenix.PubSub.broadcast_from!(
       Sneakers23.PubSub,
