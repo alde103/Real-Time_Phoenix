@@ -22,10 +22,10 @@ defmodule Sneakers23.Inventory do
 
   def mark_product_released!(product_id, opts) do
     pid = Keyword.get(opts, :pid, __MODULE__)
-
     %{id: id} = Store.mark_product_released!(product_id)
-    {:ok, _inventory} = Server.mark_product_released!(pid, id)
-
+    {:ok, inventory} = Server.mark_product_released!(pid, id)
+    {:ok, product} = CompleteProduct.get_product_by_id(inventory, id)
+    Sneakers23Web.notify_product_released(product)
     :ok
   end
 

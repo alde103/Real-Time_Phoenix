@@ -1,11 +1,11 @@
-#---
+# ---
 # Excerpted from "Real-Time Phoenix",
 # published by The Pragmatic Bookshelf.
 # Copyrights apply to this code. It may not be used to create training material,
 # courses, books, articles, and the like. Contact us if you are in doubt.
 # We make no guarantees that this code is fit for any purpose.
 # Visit http://www.pragmaticprogrammer.com/titles/sbsockets for more book information.
-#---
+# ---
 defmodule Sneakers23.InventoryTest do
   use Sneakers23.DataCase, async: false
   alias Sneakers23.Inventory
@@ -26,9 +26,8 @@ defmodule Sneakers23.InventoryTest do
       {:ok, pid} = Server.start_link(name: test_name, loader_mod: DatabaseLoader)
       Sneakers23Web.Endpoint.subscribe("product:#{p1.id}")
 
-      assert product_release_status(p1, pid: pid) == {false, false}
       Inventory.mark_product_released!(p1.id, pid: pid)
-      assert product_release_status(p1, pid: pid) == {true, true}
+      assert_received %Phoenix.Socket.Broadcast{event: "released"}
     end
   end
 end

@@ -110,4 +110,7 @@ defmodule Sneakers23Web do
   defmacro __using__(which) when is_atom(which) do
     apply(__MODULE__, which, [])
   end
+
+  defdelegate notify_product_released(product),
+    to: Sneakers23Web.ProductChannel
 end
