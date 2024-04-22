@@ -1,4 +1,4 @@
-defmodule Sneakers23Web.PageController do
+defmodule Sneakers23Web.ProductController do
   use Sneakers23Web, :controller
 
   def home(conn, _params) do
