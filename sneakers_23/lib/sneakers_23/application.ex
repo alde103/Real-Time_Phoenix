@@ -19,6 +19,7 @@ defmodule Sneakers23.Application do
       # Start to serve requests, typically the last entry
       Sneakers23Web.Endpoint,
       Sneakers23.Inventory,
+      Sneakers23.Replication,
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
