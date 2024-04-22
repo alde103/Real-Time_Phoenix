@@ -10,6 +10,6 @@ defmodule Sneakers23Web.ProductController do
   def index(conn, _params) do
     {:ok, products} = Sneakers23.Inventory.get_complete_products()
 
-    render(conn, "index.html", products: products)
+    render(conn, "index.html",  layout: false,  products: products)
   end
 end
