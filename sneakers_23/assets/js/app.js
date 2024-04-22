@@ -55,4 +55,8 @@ function setupProductChannel(socket, productId) {
     productChannel.on('released', ({ size_html }) => {
         dom.replaceProductComingSoon(productId, size_html)
     })
+
+    productChannel.on('stock_change', ({ product_id, item_id, level }) => {
+        dom.updateItemLevel(item_id, level)
+    })
 }

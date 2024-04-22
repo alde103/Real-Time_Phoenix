@@ -20,37 +20,37 @@ defmodule Sneakers23Web.ProductChannelTest do
     end
   end
 
-  # describe "notify_item_stock_change/1" do
-  #   setup _ do
-  #     {inventory, _data} =
-  #       Test.Factory.InventoryFactory.complete_products()
+  describe "notify_item_stock_change/1" do
+    setup _ do
+      {inventory, _data} =
+        Test.Factory.InventoryFactory.complete_products()
 
-  #     [product = %{items: [item]}, _] =
-  #       CompleteProduct.get_complete_products(inventory)
+      [product = %{items: [item]}, _] =
+        CompleteProduct.get_complete_products(inventory)
 
-  #     topic = "product:#{product.id}"
-  #     Endpoint.subscribe(topic)
+      topic = "product:#{product.id}"
+      Endpoint.subscribe(topic)
 
-  #     {:ok, %{product: product, item: item}}
-  #   end
+      {:ok, %{product: product, item: item}}
+    end
 
-  #   test "the same stock level doesn't broadcast an event", %{item: item} do
-  #     opts = [previous_item: item, current_item: item]
-  #     assert ProductChannel.notify_item_stock_change(opts)
-  #       == {:ok, :no_change}
+    test "the same stock level doesn't broadcast an event", %{item: item} do
+      opts = [previous_item: item, current_item: item]
+      assert ProductChannel.notify_item_stock_change(opts)
+        == {:ok, :no_change}
 
-  #     refute_broadcast "stock_change", _
-  #   end
+      refute_broadcast "stock_change", _
+    end
 
-  #   test "a stock level change broadcasts an event",
-  #     %{item: item, product: product} do
-  #     new_item = Map.put(item, :available_count, 0)
-  #     opts = [previous_item: item, current_item: new_item]
-  #     assert ProductChannel.notify_item_stock_change(opts)
-  #       == {:ok, :broadcast}
+    test "a stock level change broadcasts an event",
+      %{item: item, product: product} do
+      new_item = Map.put(item, :available_count, 0)
+      opts = [previous_item: item, current_item: new_item]
+      assert ProductChannel.notify_item_stock_change(opts)
+        == {:ok, :broadcast}
 
-  #     payload = %{item_id: item.id, product_id: product.id, level: "out"}
-  #     assert_broadcast "stock_change", ^payload
-  #   end
-  # end
+      payload = %{item_id: item.id, product_id: product.id, level: "out"}
+      assert_broadcast "stock_change", ^payload
+    end
+  end
 end
