@@ -18,7 +18,8 @@ config :sneakers_23, Sneakers23.Repo,
 config :sneakers_23, Sneakers23Web.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "H3DUoXX6efL4VBThlH15s1+dNmMEpKXMOeaTkF4Z4cgpwDt9sxMMgUhjJtINbX9k",
-  server: false
+  check_origin: false,
+  server: true
 
 # In test we don't send emails.
 config :sneakers_23, Sneakers23.Mailer, adapter: Swoosh.Adapters.Test
@@ -31,3 +32,7 @@ config :logger, level: :warning
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :sneakers_23, sql_sandbox: true
+
+config :hound, driver: "chrome_driver", browser: "chrome_headless", host: "localhost", port: 9515
