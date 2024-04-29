@@ -9,13 +9,21 @@
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
+      window.cartId = "<%= @cart_id %>";
     </script>
   </head>
   <body class="bg-white antialiased">
     <header>
       <h2>Sneakers23</h2>
     </header>
-    
+
     <%= @inner_content %>
+
+    <%= if assigns[:cart_id] do %>
+      <div id="cart-container"></div>
+      <script type="text/javascript">
+        window.cartId = "<%= @cart_id %>"
+      </script>
+    <% end %>
   </body>
 </html>

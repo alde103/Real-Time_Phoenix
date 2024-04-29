@@ -53,7 +53,7 @@ defmodule Sneakers23Web.Endpoint do
   plug Plug.Session, @session_options
   plug Sneakers23Web.Router
 
-  if Application.get_env(:sneakers_23, :sql_sandbox) do
+  if Application.compile_env(:sneakers_23, :sql_sandbox) do
     plug Phoenix.Ecto.SQL.Sandbox
   end
 end

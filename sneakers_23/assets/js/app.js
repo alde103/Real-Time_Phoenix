@@ -2,6 +2,7 @@
 // to get started and then uncomment the line below.
 import { productSocket } from "./user_socket.js"
 import dom from './dom'
+import css from "../css/app.css"
 
 // You can include dependencies in two ways.
 //
