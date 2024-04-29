@@ -2,6 +2,7 @@
 // to get started and then uncomment the line below.
 import { productSocket } from "./user_socket.js"
 import dom from './dom'
+import Cart from './cart'
 import css from "../css/app.css"
 
 // You can include dependencies in two ways.
@@ -42,11 +43,18 @@ liveSocket.connect()
 window.liveSocket = liveSocket
 
 
+productSocket.connect()
+
 const productIds = dom.getProductIds()
-if (productIds.length > 0) {
-    productSocket.connect()
-    productIds.forEach((id) => setupProductChannel(productSocket, id))
-}
+
+productIds.forEach((id) => setupProductChannel(productSocket, id))
+
+const cartChannel = Cart.setupCartChannel(productSocket, window.cartId, {
+    onCartChange: (newCart) => {
+        dom.renderCartHtml(newCart)
+    }
+})
+
 function setupProductChannel(socket, productId) {
     const productChannel = socket.channel(`product:${productId}`)
     productChannel.join()

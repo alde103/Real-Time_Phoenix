@@ -1,3 +1,5 @@
+import { getCartHtml } from './cartRenderer'
+
 const dom = {}
 function getProductIds() {
     const products = document.querySelectorAll('.product-listing')
@@ -32,6 +34,11 @@ function removeStockLevelClasses(el) {
     Array.from(el.classList).
         filter((s) => s.startsWith("size-container__entry--level-")).
         forEach((name) => el.classList.remove(name))
+}
+
+dom.renderCartHtml = (cart) => {
+    const cartContainer = document.getElementById("cart-container")
+    cartContainer.innerHTML = getCartHtml(cart)
 }
 
 export default dom
