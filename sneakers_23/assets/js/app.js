@@ -69,3 +69,11 @@ function setupProductChannel(socket, productId) {
         dom.updateItemLevel(item_id, level)
     })
 }
+
+dom.onItemClick((itemId) => {
+    Cart.addCartItem(cartChannel, itemId)
+})
+
+dom.onItemRemoveClick((itemId) => {
+    Cart.removeCartItem(cartChannel, itemId)
+})

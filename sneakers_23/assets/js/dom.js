@@ -41,4 +41,20 @@ dom.renderCartHtml = (cart) => {
     cartContainer.innerHTML = getCartHtml(cart)
 }
 
+dom.onItemClick = (fn) => {
+    document.addEventListener('click', (event) => {
+        if (!event.target.matches('.size-container__entry')) { return }
+        event.preventDefault()
+        fn(event.target.value)
+    })
+}
+
+dom.onItemRemoveClick = (fn) => {
+    document.addEventListener('click', (event) => {
+        if (!event.target.matches('.cart-item__remove')) { return }
+        event.preventDefault()
+        fn(event.target.dataset.itemId)
+    })
+}
+
 export default dom
