@@ -20,4 +20,20 @@ defmodule Sneakers23.Checkout do
     |> Base.encode64()
     |> binary_part(0, @cart_id_length)
   end
+
+  def purchase_cart(cart, opts \\ []) do
+    Sneakers23.Repo.transaction(fn ->
+      Enum.each(cart_item_ids(cart), fn id ->
+        case Sneakers23.Checkout.SingleItem.sell_item(id, opts) do
+          :ok ->
+            :ok
+
+          _ ->
+            Sneakers23.Repo.rollback(:purchase_failed)
+        end
+      end)
+
+      :purchase_complete
+    end)
+  end
 end

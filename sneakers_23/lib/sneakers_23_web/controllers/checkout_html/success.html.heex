@@ -1,0 +1,18 @@
+<div class="checkout-container">
+  <h2>Order Complete!</h2>
+
+  <p>
+    Nice, your order is complete. If we stored orders, we could show you what you
+    purchased here. Your cart has been cleared.
+  </p>
+  <.link
+    href={~p"/"}
+    class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+  >
+    Go Home
+  </.link>
+</div>
+
+<script type="text/javascript">
+  delete localStorage.storedCart
+</script>

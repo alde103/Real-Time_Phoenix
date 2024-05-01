@@ -1,0 +1,45 @@
+<div class="checkout-container">
+  <h2>Your Cart</h2>
+
+  <.flash_group flash={@flash} />
+
+  <div>
+    <%= for item <- @items do %>
+      <div class="product-listing" data-item-id={item.id}>
+        <div class="product-listing__image-wrap checkout__image-wrap">
+          <img src={item.main_image_url} />
+        </div>
+
+        <div class="product-listing__details">
+          <h4 class="product-listing__detail-header"><%= item.name %></h4>
+
+          <div>by <%= item.brand %></div>
+          <div><%= item.color %></div>
+          <div>$<%= item.price_usd %></div>
+          <div>Size <%= item.size %></div>
+
+          <%= if item.out_of_stock do %>
+            <strong>Sorry, this shoe is sold out</strong>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <h2>Payment Information</h2>
+
+  <p>Normally, you'd enter a bunch of information. But this is a book example, so just click the button below.</p>
+
+  <.simple_form for={@conn.params} phx-submit="save" action={~p"/checkout"}>
+    <.input name="_csrf_token" type="hidden" hidden value={Plug.CSRFProtection.get_csrf_token()} />
+    <.input name="serialized_cart" type="hidden" hidden value={@serialized_cart} />
+
+    <:actions>
+      <%= if @cant_purchase? do %>
+        <.button disabled="true" class="purchase-button">SOME ITEMS NOT AVAILABLE</.button>
+      <% else %>
+        <.button class="purchase-button">PURCHASE</.button>
+      <% end %>
+    </:actions>
+  </.simple_form>
+</div>
