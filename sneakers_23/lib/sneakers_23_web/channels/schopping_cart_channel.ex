@@ -8,6 +8,14 @@ defmodule Sneakers23Web.ShoppingCartChannel do
     socket = assign(socket, :cart, cart)
     send(self(), :send_cart)
     enqueue_cart_subscriptions(cart)
+
+    socket =
+      socket
+      |> assign(:cart_id, id)
+      |> assign(:page, Map.get(params, "page", nil))
+
+    send(self(), :after_join)
+
     {:ok, socket}
   end
 
@@ -32,6 +40,36 @@ defmodule Sneakers23Web.ShoppingCartChannel do
 
   def handle_info({:item_out, _id}, socket = %{assigns: %{cart: cart}}) do
     push(socket, "cart", cart_to_map(cart))
+    {:noreply, socket}
+  end
+
+  def handle_info(
+        :update_tracked_cart,
+        socket = %{
+          assigns: %{cart: cart, cart_id: id}
+        }
+      ) do
+    {:ok, _} =
+      Sneakers23Web.CartTracker.update_cart(
+        socket,
+        %{cart: cart, id: id}
+      )
+
+    {:noreply, socket}
+  end
+
+  def handle_info(
+        :after_join,
+        socket = %{
+          assigns: %{cart: cart, cart_id: id, page: page}
+        }
+      ) do
+    {:ok, _} =
+      Sneakers23Web.CartTracker.track_cart(
+        socket,
+        %{cart: cart, id: id, page: page}
+      )
+
     {:noreply, socket}
   end
 
@@ -76,6 +114,8 @@ defmodule Sneakers23Web.ShoppingCartChannel do
     cart = get_cart(params)
     socket = assign(socket, :cart, cart)
     push(socket, "cart", cart_to_map(cart))
+    send(self(), :update_tracked_cart)
+
     {:noreply, socket}
   end
 
@@ -86,6 +126,7 @@ defmodule Sneakers23Web.ShoppingCartChannel do
   end
 
   defp broadcast_cart(cart, socket, opts) do
+    send(self(), :update_tracked_cart)
     {:ok, serialized} = Checkout.export_cart(cart)
 
     broadcast_from(socket, "cart_updated", %{

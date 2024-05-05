@@ -20,6 +20,7 @@ defmodule Sneakers23.Application do
       Sneakers23Web.Endpoint,
       Sneakers23.Inventory,
       Sneakers23.Replication,
+      {Sneakers23Web.CartTracker, [pool_size: :erlang.system_info(:schedulers_online)]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

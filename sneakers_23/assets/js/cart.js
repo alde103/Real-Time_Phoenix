@@ -22,7 +22,8 @@ Cart.setupCartChannel = (socket, cartId, { onCartChange }) => {
 
 function channelParams() {
     return {
-        serialized: localStorage.storedCart
+        serialized: localStorage.storedCart,
+        page: window.location.pathname
     }
 }
 

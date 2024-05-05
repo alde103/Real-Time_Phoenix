@@ -20,6 +20,7 @@ defmodule HelloSockets.Application do
       # Start to serve requests, typically the last entry
       {Producer, name: Producer},
       {Consumer, subscribe_to: [{Producer, max_demand: 10, min_demand: 5}]},
+      {HelloSocketsWeb.UserTracker, [pool_size: :erlang.system_info(:schedulers_online)]},
       HelloSocketsWeb.Endpoint
     ]
 
