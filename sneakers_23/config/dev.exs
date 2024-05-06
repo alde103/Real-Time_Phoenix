@@ -20,7 +20,7 @@ config :sneakers_23, Sneakers23Web.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}, port: 4000],
-  check_origin: false,
+  check_origin: true,
   code_reloader: true,
   debug_errors: true,
   secret_key_base: "5qRAiy4TXI0A7FKOvjtdmP+ngR1Z6BrKKSqwvZNbGE/CsR+bJGXuB9ByfkQhgH3X",
