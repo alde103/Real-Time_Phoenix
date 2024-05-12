@@ -1,5 +1,6 @@
 defmodule Sneakers23Web.Router do
   use Sneakers23Web, :router
+  import Phoenix.LiveView.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -26,6 +27,8 @@ defmodule Sneakers23Web.Router do
 
   scope "/", Sneakers23Web do
     pipe_through [:browser, :shopper]
+
+    live "/drops", ProductPageLive
 
     get "/", ProductController, :index
     get "/checkout", CheckoutController, :show

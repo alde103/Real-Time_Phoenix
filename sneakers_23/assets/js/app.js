@@ -45,9 +45,13 @@ window.liveSocket = liveSocket
 
 productSocket.connect()
 
-const productIds = dom.getProductIds()
-
-productIds.forEach((id) => setupProductChannel(productSocket, id))
+if (document.querySelectorAll("[data-phx-main]").length) {
+    connectToLiveView()
+  } else {
+    const productIds = dom.getProductIds()
+    productIds.forEach((id) => setupProductChannel(productSocket, id))
+  }
+  
 
 const cartChannel = Cart.setupCartChannel(productSocket, window.cartId, {
     onCartChange: (newCart) => {
